@@ -131,7 +131,7 @@ def web_ical():
 
 
 if __name__ == '__main__':
-    while True:  # 防止程序崩溃后退出
+    while True:  # 防止程序崩溃后退出 （没用
         try:
             app.run(debug=False)
         except Exception as e:

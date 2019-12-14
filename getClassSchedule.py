@@ -176,7 +176,8 @@ def getCourseTable(choice=0):
         return courseTable
     else:
         print("Get ids ERROR!")
-        exit(4)
+        raise Exception("Get ids ERROR!")
+        # exit(4)
 
 
 def parseCourseTable(courseTable):
