@@ -126,12 +126,9 @@ def web_ical():
 
 if __name__ == '__main__':
     try:
-        global flag_login
-        flag_login = False
         app.run(debug=False)
     except Exception as e:
         print('ERROR!', e)
     finally:
         session.cookies.clear()  # 清cookie
-        global flag_login
         flag_login = False
