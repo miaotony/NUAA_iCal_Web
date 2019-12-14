@@ -107,6 +107,7 @@ def web_export_ical():
     print('## 日历生成完成，下面开始导出啦！\n')
     response = make_response(cal.to_ical())
     response.headers["Content-Disposition"] = "attachment; filename=Schedule.ics"
+    global flag_login
     flag_login = False  # Fix `Login ERROR` bug.
     return response
 
@@ -129,4 +130,5 @@ if __name__ == '__main__':
         print('ERROR!', e)
     finally:
         session.cookies.clear()  # 清cookie
+        global flag_login
         flag_login = False
