@@ -80,7 +80,7 @@ def web_login_post():
     state = aao_login(stuID, stuPwd, captcha_str, 1)
     print(state)
     global flag_login
-    print(flag_login)
+    print("LOGIN", flag_login)
     if isinstance(state, bool):
         flag_login = True
         return redirect('/ical')
@@ -107,8 +107,8 @@ def web_export_ical():
     print('## 日历生成完成，下面开始导出啦！\n')
     response = make_response(cal.to_ical())
     response.headers["Content-Disposition"] = "attachment; filename=Schedule.ics"
-    global flag_login
-    flag_login = False  # Fix `Login ERROR` bug.
+    # global flag_login
+    # flag_login = False  # Fix `Login ERROR` bug.
     return response
 
 
@@ -118,7 +118,9 @@ def web_ical():
     网页端导出ical文件
     """
     global flag_login
+    print('EXPORT_ICAL', flag_login)
     if flag_login:
+        flag_login = False  # Fix `Login ERROR` bug.
         return web_export_ical()
     else:
         return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
