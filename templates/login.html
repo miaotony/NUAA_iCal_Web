@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link rel=icon href="{{ url_for('static',filename='favicon.ico') }}"> 
+    <title>NUAA_iCal课程表</title>
+
+</head>
+
+<body>
+    <form action="/login" method="post">
+        <p>学号：   <input name="stuID"></p>
+        <p>密码：   <input name="stuPwd" type="password"></p>
+        <p>验证码：<input name="captcha"><img src="/get_captcha">
+        <p><button type="submit">登录 & 导出iCal日历文件</button></p>
+        </form>
+</body> 
+</html>

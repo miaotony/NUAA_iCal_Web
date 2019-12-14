@@ -1,0 +1,9 @@
+Flask
+gunicorn
+requests
+bs4
+lxml
+pytz
+icalendar
+openpyxl
+Pillow
