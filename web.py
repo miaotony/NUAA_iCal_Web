@@ -121,7 +121,7 @@ def web_ical():
     """
     global flag_login
     print('EXPORT_ICAL', flag_login)
-    if len(session.cookies.get_dict)>0:
+    if len(session.cookies.get_dict())>0:
     # if flag_login:
     #     flag_login = False  # Fix `Login ERROR` bug.
         return web_export_ical()
