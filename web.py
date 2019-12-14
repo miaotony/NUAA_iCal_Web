@@ -79,9 +79,9 @@ def web_login_post():
     print(stuID, stuPwd, captcha_str)
     state = aao_login(stuID, stuPwd, captcha_str, 1)
     print(state)
-
+    global flag_login
+    print(flag_login)
     if isinstance(state, bool):
-        global flag_login
         flag_login = True
         return redirect('/ical')
     else:
@@ -117,6 +117,7 @@ def web_ical():
     """
     网页端导出ical文件
     """
+    global flag_login
     if flag_login:
         return web_export_ical()
     else:
@@ -125,6 +126,8 @@ def web_ical():
 
 if __name__ == '__main__':
     try:
+        global flag_login
+        flag_login = False
         app.run(debug=False)
     except Exception as e:
         print('ERROR!', e)
