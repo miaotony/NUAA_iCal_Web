@@ -109,6 +109,8 @@ def web_export_ical():
     response.headers["Content-Disposition"] = "attachment; filename=Schedule.ics"
     # global flag_login
     # flag_login = False  # Fix `Login ERROR` bug.
+
+    session.cookies.clear()
     return response
 
 
@@ -119,11 +121,12 @@ def web_ical():
     """
     global flag_login
     print('EXPORT_ICAL', flag_login)
-    if flag_login:
-        flag_login = False  # Fix `Login ERROR` bug.
-        return web_export_ical()
-    else:
-        return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
+    # if flag_login:
+    #     flag_login = False  # Fix `Login ERROR` bug.
+    #     return web_export_ical()
+    # else:
+    #     return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
+    return web_export_ical()
 
 
 if __name__ == '__main__':
