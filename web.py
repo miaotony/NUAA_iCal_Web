@@ -121,20 +121,21 @@ def web_ical():
     """
     global flag_login
     print('EXPORT_ICAL', flag_login)
-    if len(session.cookies.get_dict())>0:
+    # if len(session.cookies.get_dict())>0:
     # if flag_login:
     #     flag_login = False  # Fix `Login ERROR` bug.
-        return web_export_ical()
-    else:
-        return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
-    # return web_export_ical()
+        # return web_export_ical()
+    # else:
+        # return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
+    return web_export_ical()
 
 
 if __name__ == '__main__':
-    try:
-        app.run(debug=False)
-    except Exception as e:
-        print('ERROR!', e)
-    finally:
-        session.cookies.clear()  # 清cookie
-        flag_login = False
+    while True:  # 防止程序崩溃后退出
+        try:
+            app.run(debug=False)
+        except Exception as e:
+            print('ERROR!', e)
+        # finally:
+        #     session.cookies.clear()  # 清cookie
+        #     flag_login = False
