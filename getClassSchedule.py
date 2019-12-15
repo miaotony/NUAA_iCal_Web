@@ -87,10 +87,10 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
 
         # 开始登录啦
         postData = {'username': stuID, 'password': postPwd, 'captcha_response': captcha_str}
-        time.sleep(0.5 * try_cnt)  # fix Issue #2 `Too Quick Click` bug, sleep for longer time for a new trial
+        time.sleep(0.7 * try_cnt)  # fix Issue #2 `Too Quick Click` bug, sleep for longer time for a new trial
         r2 = session.post(host + '/eams/login.action', data=postData)
         r2.encoding='utf-8'
-        # print(r2.text)
+        print(r2.text)
         if r2.status_code == 200 or r2.status_code == 302:
             logging.debug(r2.text)
             temp_key = temp_token_match.search(r2.text)
