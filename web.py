@@ -7,18 +7,22 @@ based on Flask
 
 """
 from flask import Flask, render_template, request, jsonify, url_for, \
-    make_response, send_file, redirect
+    make_response, send_file, redirect, send_file
+from flask import session as s
 import requests
 # from pytesseract import image_to_string
 # from io import BytesIO
 # from PIL import Image
-from getClassSchedule import *
+from getClassSchedule import session, host, aao_login, getCourseTable, \
+    parseCourseTable, getExamSchedule, parseExamSchedule
 from generateICS import create_ics, export_ics, create_exam_ics
 from datetime import datetime, timedelta
 from pytz import timezone
+from time import time as nowtime
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "CTF{Y0u_c4n_n0t_f1nd_m3!}"  # 嘻嘻嘻
 
 flag_login = False
 choice = 0  # 0 for std, 1 for class.个人课表or班级课表
@@ -28,9 +32,27 @@ semester_start_date = datetime(2019, 9, 2, 0, 0, 0,
                                tzinfo=timezone('Asia/Shanghai'))
 
 
+@app.before_request
+def before_request():
+    if request.path == "/ical":
+        global flag_login
+        if not flag_login:
+            # "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
+            return redirect('/')
+
+
+@app.after_request
+def after_request(temp_response):
+    return temp_response
+
+
+@app.route('/favicon.ico')
+def web_get_favicon():
+    return send_file('static/favicon.ico')
+
+
 @app.route('/vue', methods=['GET'])
 def web_index():
-    session.cookies.clear()
     return render_template("index.html")
 
 
@@ -55,19 +77,19 @@ def web_login():
     """
     登录入口
     """
-    session.cookies.clear()
-    return render_template("login.html")  # 临时测试用
-    # '''<form action="/login" method="post">
-    #           <p>学号：   <input name="stuID"></p>
-    #           <p>密码：   <input name="stuPwd" type="password"></p>
-    #           <p>验证码：<input name="captcha"><img src="/get_captcha">
-    #           <p><button type="submit">登录 & 导出iCal日历文件</button></p>
-    #           </form>
-    #           '''
-    #    <p><input name="captcha"><img src="http://aao-eas.nuaa.edu.cn/eams/captcha/image.action">
+    global flag_login
+    flag_login = False
+    # 改成用户的UA
+    session.headers["User-Agent"] = request.headers.get('User-Agent')
+    # return render_template("login.html")  # 临时测试用
+    response = make_response(render_template("login.html"))  
+    response.set_cookie('desp', 'NUAA-iCal...For more information, please refer to https://github.com/miaotony/NUAA_ClassSchedule ')
+    s['id'] = request.remote_addr + str(nowtime())  # 加一个id，用来防止重复提交请求
+    response.set_cookie('id', s.get('id'))
+    return response
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/', methods=['POST'])
 def web_login_post():
     """
     登录教务系统
@@ -77,11 +99,11 @@ def web_login_post():
     stuPwd = request.form['stuPwd']
     captcha_str = request.form['captcha']
     print(stuID, stuPwd, captcha_str)
-    state = aao_login(stuID, stuPwd, captcha_str, 1)
-    print(state)
+    state, desp = aao_login(stuID, stuPwd, captcha_str, 1)
+    print(desp)
     global flag_login
     print("LOGIN", flag_login)
-    if isinstance(state, bool):
+    if state:
         flag_login = True
         return redirect('/ical')
     else:
@@ -107,9 +129,10 @@ def web_export_ical():
     print('## 日历生成完成，下面开始导出啦！\n')
     response = make_response(cal.to_ical())
     response.headers["Content-Disposition"] = "attachment; filename=Schedule.ics"
-    # global flag_login
-    # flag_login = False  # Fix `Login ERROR` bug.
 
+    global flag_login
+    flag_login = False  # Fix `Login ERROR` bug.
+    print('## 构造ical文件response完成！')
     session.cookies.clear()
     return response
 
@@ -119,21 +142,20 @@ def web_ical():
     """
     网页端导出ical文件
     """
-    global flag_login
-    print('EXPORT_ICAL', flag_login)
+    print('EXPORT_ICAL')
     # if len(session.cookies.get_dict())>0:
     # if flag_login:
     #     flag_login = False  # Fix `Login ERROR` bug.
-        # return web_export_ical()
+    #     return web_export_ical()
     # else:
-        # return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
+    # return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
     return web_export_ical()
 
 
 if __name__ == '__main__':
     while True:  # 防止程序崩溃后退出 （没用
         try:
-            app.run(debug=False)
+            app.run(debug=True)
         except Exception as e:
             print('ERROR!', e)
         # finally:

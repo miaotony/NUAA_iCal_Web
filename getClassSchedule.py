@@ -81,9 +81,6 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
         # captcha_img = Image.open(BytesIO(captcha_resp.content))
         # captcha_img.show()  # show the captcha
 
-        # img= ImageTk.PhotoImage(captcha_img)
-        # label_img = tkinter.ttk.Label(window, image = img).place(x = 560, y = 2)
-
         # text = image_to_string(captcha_img)  # 前提是装了Tesseract-OCR，可以试试自动识别
         # print(text)
         # captcha_str = input('Please input the captcha:')
@@ -101,29 +98,30 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
                 print("ID, Password or Captcha ERROR! Login ERROR!\n")
                 temp_key = temp_key.group(1)
                 logging.debug(temp_key)
-                return "ID, Password or Captcha ERROR! Login ERROR!\n"
+                return False, "ID, Password or Captcha ERROR! Login ERROR!\n"
                 # exit(2)
             elif re.search(r"ui-state-error", r2.text):  # 过快点击
                 print("ERROR! 请不要过快点击!\n")
-                time.sleep(1)
-                try_cnt += 1
+                return False, "ERROR! 请不要过快点击!\n"
+                # time.sleep(1)
+                # try_cnt += 1
                 # session.headers["User-Agent"] = UAs[1]  # random.randint(0, len(UAs)-1)  # 换UA也不行
                 # exit(3)
             else:
                 temp_soup = BeautifulSoup(r2.text.encode('utf-8'), 'lxml')
                 name = temp_soup.find('a', class_='personal-name').string.strip()
                 print("Login OK!\nHello, {}!".format(name))
-                return True  
+                return True, name 
         else:
             print("Login ERROR!\n")
-            return "Login ERROR!\n"
+            return False, "Login ERROR!\n"
             # exit(1)
     else:
         print('Search token ERROR!\n')
-        return 'Search token ERROR!\n'
+        return False, 'Search token ERROR!\n'
         # exit(1)
     print("ERROR! 过一会儿再试试吧...\n")
-    return "ERROR! 过一会儿再试试吧...\n"
+    return False, "ERROR! 过一会儿再试试吧...\n"
     # exit(3)
 
 
@@ -212,7 +210,7 @@ def parseCourseTable(courseTable):
     list_lessonObj = []  # Initialization
     course_cnt = 1
     for singleCourse in list_courses[1:]:
-        print('No.{} course: '.format(course_cnt))
+        # print('No.{} course: '.format(course_cnt))
 
         logging.info('Parsing teacher(s)...')
         list_teacher = []
@@ -241,7 +239,7 @@ def parseCourseTable(courseTable):
         new_lessonObj = Lesson(list_teacher, courseInfo, courseTime)
         # 把课程的全部信息都传给Lesson，在初始化时进行具体信息的匹配，后续有改动直接在Lesson类里面改就完事了
         """Print info"""
-        print(new_lessonObj)
+        # print(new_lessonObj)
         list_lessonObj.append(new_lessonObj)
 
         course_cnt += 1
@@ -283,7 +281,7 @@ def parseExamSchedule(exams):
     if len(exams) > 0:
         for exam in exams:
             temp_ExamObj = Exam(exam)
-            print(temp_ExamObj.str_for_print)  # print the exam info
+            # print(temp_ExamObj.str_for_print)  # print the exam info
             list_examObj.append(Exam(exam))
     else:
         print('暂无考试安排！')
