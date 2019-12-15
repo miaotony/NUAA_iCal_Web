@@ -24,7 +24,7 @@ from time import time as nowtime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "CTF{Y0u_c4n_n0t_f1nd_m3!}"  # 嘻嘻嘻
 
-flag_login = False
+# s['flag_login'] = False
 choice = 0  # 0 for std, 1 for class.个人课表or班级课表
 # semester_year = '2019-2020'
 # semester = '1'
@@ -35,8 +35,8 @@ semester_start_date = datetime(2019, 9, 2, 0, 0, 0,
 @app.before_request
 def before_request():
     if request.path == "/ical":
-        global flag_login
-        if not flag_login:
+        # global flag_login
+        if not s['flag_login']:
             # "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
             return redirect('/')
 
@@ -77,13 +77,12 @@ def web_login():
     """
     登录入口
     """
-    global flag_login
-    flag_login = False
+    s['flag_login'] = False
     # 改成用户的UA
     session.headers["User-Agent"] = request.headers.get('User-Agent')
     # return render_template("login.html")  # 临时测试用
     response = make_response(render_template("login.html"))  
-    response.set_cookie('desp', 'NUAA-iCal...For more information, please refer to https://github.com/miaotony/NUAA_ClassSchedule ')
+    response.set_cookie('desp', 'NUAA-iCal...For more information -- Please refer to https://github.com/miaotony/NUAA_ClassSchedule ')
     s['id'] = request.remote_addr + str(nowtime())  # 加一个id，用来防止重复提交请求
     response.set_cookie('id', s.get('id'))
     return response
@@ -101,13 +100,16 @@ def web_login_post():
     print(stuID, stuPwd, captcha_str)
     state, desp = aao_login(stuID, stuPwd, captcha_str, 1)
     print(desp)
-    global flag_login
-    print("LOGIN", flag_login)
+    print("LOGIN", s.get('flag_login'))
     if state:
-        flag_login = True
-        return redirect('/ical')
+        s['flag_login'] = True
+        # return redirect('/ical')
+        return """<head><meta http-equiv="refresh" content="1;url=/ical"><title></title> </head>""" + \
+                '<h3> Login OK! </br>正在导出课表及考试信息并生成iCal文件，' + \
+                '</br><strong>即将弹出下载界面!</strong></h3></br></br><a href=/>点击此处返回主页</a>'
     else:
-        return '<h3>' + state + '</h3>'
+        return """<head><meta http-equiv="refresh" content="5;url=/"><title>Error!</title> </head>""" + \
+                '<h3>' + desp + '</br>即将返回主页...</h3>'
 
 
 def web_export_ical():
@@ -130,8 +132,8 @@ def web_export_ical():
     response = make_response(cal.to_ical())
     response.headers["Content-Disposition"] = "attachment; filename=Schedule.ics"
 
-    global flag_login
-    flag_login = False  # Fix `Login ERROR` bug.
+    # global flag_login
+    s['flag_login'] = False  # Fix `Login ERROR` bug.
     print('## 构造ical文件response完成！')
     session.cookies.clear()
     return response

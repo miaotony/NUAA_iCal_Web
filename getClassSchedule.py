@@ -243,7 +243,7 @@ def parseCourseTable(courseTable):
         list_lessonObj.append(new_lessonObj)
 
         course_cnt += 1
-        print()
+        # print()
     return list_lessonObj
 
 
