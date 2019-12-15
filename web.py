@@ -78,6 +78,7 @@ def web_login():
     登录入口
     """
     s['flag_login'] = False
+    session.cookies.clear()  # 先把之前的cookie给清除了
     # 改成用户的UA
     session.headers["User-Agent"] = request.headers.get('User-Agent')
     # return render_template("login.html")  # 临时测试用
@@ -160,6 +161,6 @@ if __name__ == '__main__':
             app.run(debug=True)
         except Exception as e:
             print('ERROR!', e)
-        # finally:
-        #     session.cookies.clear()  # 清cookie
+        finally:
+            session.cookies.clear()  # 清cookie
         #     flag_login = False
