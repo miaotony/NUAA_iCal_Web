@@ -90,7 +90,6 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
         time.sleep(0.7 * try_cnt)  # fix Issue #2 `Too Quick Click` bug, sleep for longer time for a new trial
         r2 = session.post(host + '/eams/login.action', data=postData)
         r2.encoding='utf-8'
-        print(r2.text)
         if r2.status_code == 200 or r2.status_code == 302:
             logging.debug(r2.text)
             temp_key = temp_token_match.search(r2.text)
@@ -114,6 +113,7 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
                 return True, name 
         else:
             print("Login ERROR!\n")
+            print(r2.text)
             return False, "Login ERROR!\n"
             # exit(1)
     else:
