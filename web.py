@@ -22,7 +22,7 @@ from time import time as nowtime
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "CTF{Y0u_c4n_n0t_f1nd_m3!}"  # 嘻嘻嘻
+app.config['SECRET_KEY'] = "MIAO{Y0u_c4n_n0t_f1nd_m3!}"  # 嘻嘻嘻
 
 # s['flag_login'] = False
 choice = 0  # 0 for std, 1 for class.个人课表or班级课表
@@ -105,11 +105,11 @@ def web_login_post():
     if state:
         s['flag_login'] = True
         # return redirect('/ical')
-        return """<head><meta http-equiv="refresh" content="1;url=/ical"><title></title> </head>""" + \
+        return """<head><meta http-equiv="refresh" content=";url=/ical"><title></title> </head>""" + \
                 '<h3> Login OK! </br>正在导出课表及考试信息并生成iCal文件，' + \
                 '</br><strong>即将弹出下载界面!</strong></h3></br></br><a href=/>点击此处返回主页</a>'
     else:
-        return """<head><meta http-equiv="refresh" content="5;url=/"><title>Error!</title> </head>""" + \
+        return """<head><meta http-equiv="refresh" content="3;url=/"><title>Error!</title> </head>""" + \
                 '<h3>' + desp + '</br>即将返回主页...</h3>'
 
 

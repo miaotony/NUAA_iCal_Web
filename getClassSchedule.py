@@ -55,7 +55,7 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
     :param retry_cnt: 登录重试次数
     :return: name: {str} 姓名(学号)
     """
-    try_cnt = 1
+    # try_cnt = 1
     # while try_cnt <= retry_cnt:
     # session.cookies.clear()  # 先清一下cookie
     r1 = session.get(host + '/eams/login.action')
@@ -87,9 +87,10 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
 
         # 开始登录啦
         postData = {'username': stuID, 'password': postPwd, 'captcha_response': captcha_str}
-        time.sleep(0.7 * try_cnt)  # fix Issue #2 `Too Quick Click` bug, sleep for longer time for a new trial
+        # fix Issue #2 `Too Quick Click` bug, sleep for longer time for a new trial
+        time.sleep(random.uniform(0.7, 1))  # 更改为随机延时
         r2 = session.post(host + '/eams/login.action', data=postData)
-        r2.encoding='utf-8'
+        r2.encoding = 'utf-8'
         if r2.status_code == 200 or r2.status_code == 302:
             logging.debug(r2.text)
             temp_key = temp_token_match.search(r2.text)
@@ -112,9 +113,13 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
                 print("Login OK!\nHello, {}!".format(name))
                 return True, name 
         else:
-            print("Login ERROR!\n")
             print(r2.text)
-            return False, "Login ERROR!\n"
+            if '连接已重置' in r2.text:
+                print("Login ERROR!连接已重置!\n")
+                return False, "Login ERROR!连接已重置!\n"
+            else:
+                print("Login ERROR!\n")
+                return False, "Login ERROR!\n"
             # exit(1)
     else:
         print('Search token ERROR!\n')
@@ -280,7 +285,7 @@ def parseExamSchedule(exams):
     list_examObj = []
     if len(exams) > 0:
         for exam in exams:
-            temp_ExamObj = Exam(exam)
+            # temp_ExamObj = Exam(exam)
             # print(temp_ExamObj.str_for_print)  # print the exam info
             list_examObj.append(Exam(exam))
     else:
