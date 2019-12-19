@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
 """
 NUAA_iCal_Web Backend
 based on Flask
@@ -30,6 +32,18 @@ choice = 0  # 0 for std, 1 for class.个人课表or班级课表
 # semester = '1'
 semester_start_date = datetime(2019, 9, 2, 0, 0, 0,
                                tzinfo=timezone('Asia/Shanghai'))
+# 百度统计
+js_statistic = """
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?30c55341ebeaa8f7a62f974564dc47c3";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+"""
 
 
 @app.before_request
@@ -82,9 +96,10 @@ def web_login():
     # 改成用户的UA
     session.headers["User-Agent"] = request.headers.get('User-Agent')
     # return render_template("login.html")  # 临时测试用
-    response = make_response(render_template("login.html"))  
-    response.set_cookie('desp', 'NUAA-iCal...For more information -- Please refer to https://github.com/miaotony/NUAA_ClassSchedule ')
-    s['id'] = request.remote_addr + str(nowtime())  # 加一个id，用来防止重复提交请求
+    response = make_response(render_template("login.html"))
+    response.set_cookie(
+        'desp', 'NUAA-iCal...For more information -- Please refer to https://github.com/miaotony/NUAA_ClassSchedule ')
+    s['id'] = request.remote_addr + str(nowtime())  # TODO 加一个id，用来防止重复提交请求
     response.set_cookie('id', s.get('id'))
     return response
 
@@ -105,12 +120,14 @@ def web_login_post():
     if state:
         s['flag_login'] = True
         # return redirect('/ical')
-        return """<head><meta http-equiv="refresh" content=";url=/ical"><title></title> </head>""" + \
-                '<h3> Login OK! </br>正在导出课表及考试信息并生成iCal文件，' + \
-                '</br><strong>即将弹出下载界面!</strong></h3></br></br><a href=/>点击此处返回主页</a>'
+        return """<head><meta http-equiv="refresh" content=";url=/ical"><title></title>""" + \
+            js_statistic + "</head>" + \
+            '<h3> Login OK! </br>正在导出课表及考试信息并生成iCal文件，' + \
+            '</br><strong>即将弹出下载界面!</strong></h3></br></br><a href=/>点击此处返回主页</a>'
     else:
-        return """<head><meta http-equiv="refresh" content="3;url=/"><title>Error!</title> </head>""" + \
-                '<h3>' + desp + '</br>即将返回主页...</h3>'
+        return """<head><meta http-equiv="refresh" content="3;url=/"><title>Error!</title>""" + \
+            js_statistic + "</head>" + \
+            '<h3>' + desp + '</br>即将返回主页...</h3>'
 
 
 def web_export_ical():
@@ -146,11 +163,6 @@ def web_ical():
     网页端导出ical文件
     """
     print('EXPORT_ICAL')
-    # if len(session.cookies.get_dict())>0:
-    # if flag_login:
-    #     flag_login = False  # Fix `Login ERROR` bug.
-    #     return web_export_ical()
-    # else:
     # return "<h3> ERROR! </br><a href='/'>请先登录！</a> </h3>"
     return web_export_ical()
 
@@ -158,7 +170,7 @@ def web_ical():
 if __name__ == '__main__':
     while True:  # 防止程序崩溃后退出 （没用
         try:
-            app.run(debug=True)
+            app.run(debug=False)
         except Exception as e:
             print('ERROR!', e)
         finally:

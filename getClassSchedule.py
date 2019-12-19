@@ -115,8 +115,8 @@ def aao_login(stuID, stuPwd, captcha_str, retry_cnt=1):
         else:
             print(r2.text)
             if '连接已重置' in r2.text:
-                print("Login ERROR!连接已重置!\n")
-                return False, "Login ERROR!连接已重置!\n"
+                print("Login ERROR! 连接已重置!\n")
+                return False, "Login ERROR! 教务系统连接已重置，请重试！\n"
             else:
                 print("Login ERROR!\n")
                 return False, "Login ERROR!\n"
@@ -136,7 +136,8 @@ def getCourseTable(choice=0):
     :param choice: 0 for std, 1 for class.个人课表or班级课表，默认为个人课表。
     :return:courseTable: {Response} 课表html响应
     """
-    time.sleep(0.5)  # fix Issue #2 `Too Quick Click` bug
+    # time.sleep(0.5)  # fix Issue #2 `Too Quick Click` bug
+    time.sleep(random.uniform(0.7, 1))  # 更改为随机延时
     courseTableResponse = session.get(host + '/eams/courseTableForStd.action')
     # logging.debug(courseTableResponse.text)
 
