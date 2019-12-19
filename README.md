@@ -50,6 +50,15 @@ For example, you can try `gunicorn`:
     gunicorn web:app
 ```
 
+## Reference  
+`NUAA_ClassSchedule`  本项目本地版本
+>项目网址：[点这里](https://github.com/miaotony/NUAA_ClassSchedule)  
+https://github.com/miaotony/NUAA_ClassSchedule    
+
+更多关于ical的信息请戳上面的网址呀~  
+
+
+## Copyright  
 本项目仅供学习研究使用，请在合理合法范围内使用，未经允许禁止任何形式的商用。  
 最终解释权归本项目开发者所有。  
 
