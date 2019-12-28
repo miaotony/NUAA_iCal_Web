@@ -12,9 +12,6 @@ For local version, please refer to https://github.com/miaotony/NUAA_ClassSchedul
 https://nuaaical.herokuapp.com/  
 或 [点击此处访问](https://nuaaical.herokuapp.com/)  
 
-同时也部署在了 Azure 上，*（不过准备到期了）*，网址：  
-https://nuaaicalweb.azurewebsites.net/   
-
 
 **Web端仍在测试中**，欢迎提出issues & PRs.  
 感兴趣的欢迎来写个好看一点的前端界面呗~  
