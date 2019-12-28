@@ -25,7 +25,7 @@ https://nuaaical.herokuapp.com/
 
 ## web端部署折腾记  
 详见blog：  
-![https://miaotony.github.io/2019/12/29/Tech_NUAAiCalWeb_deploy/](https://miaotony.github.io/2019/12/29/Tech_NUAAiCalWeb_deploy/)  
+[https://miaotony.github.io/2019/12/29/Tech_NUAAiCalWeb_deploy/](https://miaotony.github.io/2019/12/29/Tech_NUAAiCalWeb_deploy/)  
 
 
 ## Usage  
