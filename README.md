@@ -23,6 +23,10 @@ https://nuaaical.herokuapp.com/
 **对于解析异常导致的各种后果请自行承担！**   
 *（坚决不背锅）*  
 
+## web端部署折腾记  
+详见blog：  
+![https://miaotony.github.io/2019/12/29/Tech_NUAAiCalWeb_deploy/](https://miaotony.github.io/2019/12/29/Tech_NUAAiCalWeb_deploy/)  
+
 
 ## Usage  
 ### Step 1  
