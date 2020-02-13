@@ -24,23 +24,24 @@
           var s = document.getElementsByTagName("script")[0]; 
           s.parentNode.insertBefore(hm, s);
         })();
+        console.log("This is NUAA_iCal_Web...\nFor more information, Please refer to https://github.com/miaotony/NUAA_iCal_Web ");
     </script>
 </head>
 
 <body>
-    <h2><strong> NUAA_iCal课程表 </strong></h2>
+    <h1><strong> NUAA_iCal课程表 </strong></h1>
     <form id="form1" action="/" method="post">
         <p>学号：   <input name="stuID"></p>
         <p>密码：   <input name="stuPwd" type="password"></p>
-        <p>验证码：<input name="captcha"><img src="/get_captcha">
+        <p>验证码：<input name="captcha"><img src="{{pic_captcha}}">
         <p><button type="submit">登录 & 导出iCal日历文件</button></p>
     </form>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <p>Web端测试中……</p>
     <p>For more information, please refer to 
-        <a href="http://github.com/miaotony/NUAA_ClassSchedule">http://github.com/miaotony/NUAA_ClassSchedule</a>.</p>
-    <h4><strong>Copyright © 2019 <a href="https://github.com/miaotony">MiaoTony</a>. </strong></h4>
+        <a href="https://github.com/miaotony/NUAA_iCal_Web">NUAA_iCal_Web</a>.</p>
+    <h4><strong>Copyright © 2019-2020 <a href="https://github.com/miaotony">MiaoTony</a>. </strong></h4>
 </body> 
 </html>
