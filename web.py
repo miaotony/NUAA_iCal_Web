@@ -133,7 +133,7 @@ def web_login_post():
     stuID = request.form['stuID']
     stuPwd = request.form['stuPwd']
     captcha_str = request.form['captcha']
-    print(stuID, stuPwd, captcha_str)
+    # print(stuID, stuPwd, captcha_str)
 
     # 确保在同一个cookie下访问
     cookie_string = s['cookie']
