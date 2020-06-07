@@ -2,7 +2,9 @@ Flask
 gunicorn
 gevent
 requests
-bs4
-lxml
-pytz
-icalendar
+beautifulsoup4==4.7.1
+bs4==0.0.1
+certifi==2020.4.5.1
+lxml==4.5.0
+pytz==2020.1
+icalendar==4.0.6
