@@ -1,5 +1,5 @@
 # **NUAA_iCal_Web**  
-## description  
+## Description  
 
 This is the **online version** of `NUAA_ClassSchedule`, based on `flask`.  
 For local version, please refer to https://github.com/miaotony/NUAA_ClassSchedule.  
@@ -31,7 +31,7 @@ https://nuaaical.herokuapp.com/
 ## Usage  
 ### Step 1  
 ```bash
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 Use `pip3` for linux.
 
@@ -40,7 +40,7 @@ Use `pip3` for linux.
 
 For development environment, you can try it like this.   
 ```bash
-    python web.py
+python web.py
 ```
 Use `python3` for linux.  
 
@@ -48,7 +48,7 @@ Use `python3` for linux.
 Use a production WSGI server instead.  
 For example, you can try `gunicorn`:  
 ```bash
-    gunicorn web:app
+gunicorn web:app
 ```
 
 ## Reference  
