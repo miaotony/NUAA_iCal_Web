@@ -151,10 +151,14 @@ def web_login_post():
     if state:
         s['flag_login'] = True
         # return redirect('/ical')
-        return """<head><meta http-equiv="refresh" content=";url=/ical"><title></title>""" + \
-            js_statistic + "</head>" + \
-            '<h3> Login OK! <br />正在导出课表及考试信息并生成iCal文件，' + \
-            '<br /><strong>即将弹出下载界面!</strong></h3><br /><br /><a href=/>点击此处返回主页</a>'
+        # return """<head><meta http-equiv="refresh" content=";url=/ical"><title></title>""" + \
+        #     js_statistic + "</head>" + \
+        #     '<h3> Login OK! <br />正在导出课表及考试信息并生成iCal文件，' + \
+        #     '<br /><strong>即将弹出下载界面!</strong></h3><br /><br /><a href=/>点击此处返回主页</a>'
+
+        return web_ical()
+
+
     else:
         return """<head><meta http-equiv="refresh" content="3;url=/"><title>Error!</title>""" + \
             js_statistic + "</head>" + \
