@@ -1,4 +1,14 @@
 # **NUAA_iCal_Web**  
+
+**⚠️ This version has been deprecated, please use the latest version at [NUAA AnyKnew](https://anyknew.a2os.club/Schedule?from=github)!**
+
+**⚠️ 本项目相关代码已经过时，如需使用在线版本，请移步至 [NUAA AnyKnew 网页版](https://anyknew.a2os.club/Schedule?from=github)！感谢大家的支持！**
+
+最新的本地版本请移步 https://github.com/miaotony/NUAA_ClassSchedule  
+
+
+---  
+
 ## Description  
 
 This is the **online version** of `NUAA_ClassSchedule`, based on `flask`.  
